@@ -19,24 +19,21 @@ const textReelItems = [
 
 export default function HomePage() {
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
-  const [fade, setFade] = useState(true)
+  const [show, setShow] = useState(true)
   const [email, setEmail] = useState('')
 
-  // Text reel animation (fade in/out)
+  // Pure fade animation for rotating text
   useEffect(() => {
-    const timeout = setTimeout(() => setFade(false), 2200)
-    const interval = setInterval(() => {
-      setFade(true)
-      setTimeout(() => {
-        setCurrentTextIndex((prev) => (prev + 1) % textReelItems.length)
-        setFade(true)
-      }, 400)
-    }, 3000)
+    const fadeOut = setTimeout(() => setShow(false), 2200)
+    const next = setTimeout(() => {
+      setCurrentTextIndex((prev) => (prev + 1) % textReelItems.length)
+      setShow(true)
+    }, 2600)
     return () => {
-      clearTimeout(timeout)
-      clearInterval(interval)
+      clearTimeout(fadeOut)
+      clearTimeout(next)
     }
-  }, [])
+  }, [currentTextIndex])
 
   // Scroll-triggered animations
   const [section1Ref, section1InView] = useInView({
@@ -105,7 +102,7 @@ export default function HomePage() {
                   key={currentTextIndex}
                   className="text-primary-600"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: fade ? 1 : 0 }}
+                  animate={{ opacity: show ? 1 : 0 }}
                   transition={{ duration: 0.4 }}
                 >
                   {textReelItems[currentTextIndex]}
