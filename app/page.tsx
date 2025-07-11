@@ -19,14 +19,23 @@ const textReelItems = [
 
 export default function HomePage() {
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
+  const [fade, setFade] = useState(true)
   const [email, setEmail] = useState('')
 
-  // Text reel animation
+  // Text reel animation (fade in/out)
   useEffect(() => {
+    const timeout = setTimeout(() => setFade(false), 2200)
     const interval = setInterval(() => {
-      setCurrentTextIndex((prev) => (prev + 1) % textReelItems.length)
+      setFade(true)
+      setTimeout(() => {
+        setCurrentTextIndex((prev) => (prev + 1) % textReelItems.length)
+        setFade(true)
+      }, 400)
     }, 3000)
-    return () => clearInterval(interval)
+    return () => {
+      clearTimeout(timeout)
+      clearInterval(interval)
+    }
   }, [])
 
   // Scroll-triggered animations
@@ -91,17 +100,15 @@ export default function HomePage() {
           >
             Reach criticality in your{' '}
             <span className="relative inline-block">
-              <div className="h-20 md:h-28 overflow-hidden">
+              <div className="h-20 md:h-28 flex items-center justify-center">
                 <motion.div
+                  key={currentTextIndex}
                   className="text-primary-600"
-                  animate={{ y: -currentTextIndex * 100 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: fade ? 1 : 0 }}
+                  transition={{ duration: 0.4 }}
                 >
-                  {textReelItems.map((item, index) => (
-                    <div key={index} className="h-20 md:h-28 flex items-center justify-center">
-                      {item}
-                    </div>
-                  ))}
+                  {textReelItems[currentTextIndex]}
                 </motion.div>
               </div>
             </span>
