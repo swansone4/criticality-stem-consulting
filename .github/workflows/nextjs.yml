@@ -31,6 +31,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Show working directory and files
+        run: |
+          pwd
+          ls -la
       - name: Detect package manager
         id: detect-package-manager
         run: |
