@@ -95,15 +95,21 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Reach criticality in your{' '}
+            Take the next step in your{' '}
             <span className="relative inline-block">
               <div className="h-20 md:h-28 flex items-center justify-center">
                 <motion.div
                   key={currentTextIndex}
                   className="text-primary-600"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: show ? 1 : 0 }}
+                  animate={{ 
+                    opacity: show ? 1 : 0,
+                    filter: show ? 'brightness(1.1) drop-shadow(0 0 8px #4F7FF0)' : 'brightness(1)'
+                  }}
                   transition={{ duration: 0.4 }}
+                  style={{
+                    animation: show ? 'pulse-hue 1.2s infinite alternate' : 'none',
+                  }}
                 >
                   {textReelItems[currentTextIndex]}
                 </motion.div>
@@ -117,7 +123,7 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Transform your STEM trajectory through proven strategies, industry connections, and hands-on mentorship.
+            The premier platform for students seeking STEM mentorship, connections & resources
           </motion.p>
 
           {/* Email Form */}

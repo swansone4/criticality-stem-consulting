@@ -40,11 +40,13 @@ export default function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <motion.div
-              className="text-2xl md:text-3xl font-bold text-primary-500"
-              whileHover={{ scale: 1.05 }}
+              className="text-3xl md:text-4xl font-bold text-primary-900 select-none"
+              style={{ fontFamily: 'Old English Text MT, Blackletter, serif', letterSpacing: '-0.05em' }}
+              whileHover={{ scale: 1.08 }}
               transition={{ duration: 0.2 }}
+              aria-label="Home"
             >
-              Criticality
+              C
             </motion.div>
           </Link>
 
