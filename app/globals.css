@@ -6,16 +6,57 @@
   html {
     scroll-behavior: smooth;
   }
-  
   body {
-    font-family: 'Times New Roman', Georgia, serif;
-    color: #2E8B57;
-    background-color: #ffffff;
+    font-family: 'Inter', 'Poppins', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+    color: #1A1A2E;
+    background-color: #FFFFFF;
+    line-height: 1.6;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Times New Roman', Georgia, serif;
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #1A1A2E;
+    font-family: 'Inter', 'Poppins', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+    margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #1A1A2E;
+    font-family: 'Inter', 'Poppins', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+    margin-bottom: 0.5rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1A1A2E;
+    font-family: 'Inter', 'Poppins', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+    margin-bottom: 0.5rem;
+  }
+  h4, h5, h6 {
     font-weight: 600;
+    color: #1A1A2E;
+    font-family: 'Inter', 'Poppins', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+  }
+  p, span, li, label, input, textarea, button {
+    font-family: 'Inter', 'Poppins', 'SF Pro', ui-sans-serif, system-ui, sans-serif;
+    color: #1A1A2E;
+    font-weight: 500;
+  }
+  strong, b {
+    color: #FF6B00;
+    font-weight: 700;
+  }
+  a {
+    color: #4F7FF0;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  a:hover {
+    color: #2546b8;
   }
 }
 
