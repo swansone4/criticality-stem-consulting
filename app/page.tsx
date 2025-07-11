@@ -169,12 +169,17 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-primary-500 mb-8">
-              Tailored toward your career goals?
+              Demystifying <span className="text-accent-orange animate-pulse">STEM pathways</span>
             </h2>
             <p className="text-xl text-gray-700 leading-relaxed mb-12">
-              From academic recovery to national lab internships, our personalized approach transforms STEM trajectories through proven strategies, industry connections, and hands-on mentorship.
+              Our approach is <span className="text-primary-500 font-semibold">simple</span>. We identify your <span className="text-accent-blue font-semibold">fields of interest</span> and <span className="text-accent-blue font-semibold">current academic situation</span>.<br/>
+              From there, we <span className="text-accent-orange font-semibold">map out a career trajectory</span>— aiding in everything from: <span className="text-primary-500 font-semibold">project portfolio building</span>, <span className="text-primary-500 font-semibold">finding research internships and fellowships</span>, <span className="text-primary-500 font-semibold">developing your academic network</span>, and <span className="text-accent-orange font-semibold">providing personalized mentorship</span>.
             </p>
-            
+            <Link href="/services">
+              <button className="button-primary text-lg px-8 py-4 mb-8 animate-fade-in-up">
+                Our Process
+              </button>
+            </Link>
             {/* Animated Icons */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
               {[
@@ -189,7 +194,7 @@ export default function HomePage() {
                   animate={section1InView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: index * 0.2 }}
                 >
-                  <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
                     <item.icon className="w-8 h-8 text-primary-500" />
                   </div>
                   <h3 className="text-xl font-semibold text-primary-500 mb-2">{item.title}</h3>
@@ -212,10 +217,10 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-primary-500 mb-8">
-              From Setbacks to Success
+              We are <span className="text-accent-blue animate-pulse">students too!</span>
             </h2>
             <p className="text-xl text-gray-700 leading-relaxed">
-              Navigate the path from academic challenges to prestigious research opportunities at Oak Ridge National Lab, NIST, and beyond. Our founder's journey from academic suspension to PhD acceptance guides your transformation.
+              <span className="text-primary-500 font-semibold">Eric</span>, the founder of <span className="text-accent-orange font-semibold">Criticality</span>, began this platform in part to educate people on how <span className="text-accent-blue font-semibold">lucrative STEM careers</span> can truly be. <span className="text-primary-500 font-semibold">High salaries</span>, <span className="text-primary-500 font-semibold">time flexibility</span>, <span className="text-accent-orange font-semibold">research-direction freedom</span>, and <span className="text-accent-blue font-semibold">compelling networks</span> are the primary reasons why Eric ended up pursuing a <span className="text-primary-500 font-semibold">Ph.D. in nuclear engineering</span> at the University of Florida.
             </p>
           </motion.div>
         </div>
