@@ -17,14 +17,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://criticality-stem.com'),
+  metadataBase: new URL('https://swansone4.github.io/tutoring'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'Criticality - STEM Career Consulting',
     description: 'Reach criticality in your STEM career with personalized guidance and research opportunities.',
-    url: 'https://criticality-stem.com',
+    url: 'https://swansone4.github.io/tutoring',
     siteName: 'Criticality',
     images: [
       {
