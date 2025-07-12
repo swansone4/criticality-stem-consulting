@@ -103,13 +103,9 @@ export default function HomePage() {
                   className="text-accent-burgundy"
                   initial={{ opacity: 0 }}
                   animate={{ 
-                    opacity: show ? 1 : 0,
-                    filter: show ? 'brightness(1.05) drop-shadow(0 0 4px #8b2635)' : 'brightness(1)'
+                    opacity: show ? 1 : 0
                   }}
                   transition={{ duration: 0.4 }}
-                  style={{
-                    animation: show ? 'pulse-hue 1.2s infinite alternate' : 'none',
-                  }}
                 >
                   {textReelItems[currentTextIndex]}
                 </motion.div>
@@ -172,8 +168,8 @@ export default function HomePage() {
               Demystifying <span className="text-accent-burgundy">STEM pathways</span>
             </h2>
             <p className="text-xl text-gray-700 leading-relaxed mb-12">
-              Our approach is <span className="text-accent-navy font-semibold">simple</span>. We identify your <span className="text-accent-burgundy font-semibold">fields of interest</span> and <span className="text-accent-burgundy font-semibold">current academic situation</span>.<br/>
-              From there, we <span className="text-accent-burgundy font-semibold">map out a career trajectory</span>— aiding in everything from: <span className="text-accent-navy font-semibold">project portfolio building</span>, <span className="text-accent-navy font-semibold">finding research internships and fellowships</span>, <span className="text-accent-navy font-semibold">developing your academic network</span>, and <span className="text-accent-burgundy font-semibold">providing personalized mentorship</span>.
+              Our approach is simple. We identify your fields of interest and current academic situation.<br/>
+              From there, we map out a career trajectory— aiding in everything from: project portfolio building, finding research internships and fellowships, developing your academic network, and providing personalized mentorship.
             </p>
             <Link href="/services">
               <button className="button-primary text-lg px-8 py-4 mb-8 animate-fade-in-up">
@@ -220,7 +216,7 @@ export default function HomePage() {
               We are <span className="text-accent-burgundy">students too!</span>
             </h2>
             <p className="text-xl text-gray-700 leading-relaxed">
-              <span className="text-accent-navy font-semibold">Eric</span>, the founder of <span className="text-accent-burgundy font-semibold">Criticality</span>, began this platform in part to educate people on how <span className="text-accent-burgundy font-semibold">lucrative STEM careers</span> can truly be. <span className="text-accent-navy font-semibold">High salaries</span>, <span className="text-accent-navy font-semibold">time flexibility</span>, <span className="text-accent-burgundy font-semibold">research-direction freedom</span>, and <span className="text-accent-burgundy font-semibold">compelling networks</span> are the primary reasons why Eric ended up pursuing a <span className="text-accent-navy font-semibold">Ph.D. in nuclear engineering</span> at the University of Florida.
+              Eric, the founder of Criticality, began this platform in part to educate people on how lucrative STEM careers can truly be. High salaries, time flexibility, research-direction freedom, and compelling networks are the primary reasons why Eric ended up pursuing a Ph.D. in nuclear engineering at the University of Florida.
             </p>
           </motion.div>
         </div>
