@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { FlaskConical, ClipboardList, Brain, Network, GraduationCap, BookOpen, Users, Target, FileText, CheckCircle, MessageSquare, ArrowRight } from 'lucide-react'
+import { ChevronDown, Mail, ArrowRight, BookOpen, Users, Target, GraduationCap } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 
 const textReelItems = [
@@ -15,88 +15,6 @@ const textReelItems = [
   "graduate applications",
   "laboratory skills",
   "industry connections"
-]
-
-const serviceGroups = [
-  {
-    icon: Target,
-    title: 'Strategic Direction & Career Mapping',
-    description: 'Design your STEM journey with clarity and intention.',
-    services: [
-      'Personalized career roadmaps',
-      'Graduate school preparation',
-      'Industry transition strategies',
-      'Academic recovery strategies',
-      'Study skills coaching',
-    ],
-  },
-  {
-    icon: FlaskConical,
-    title: 'Research & Academic Development',
-    description: 'Position yourself for high-impact work and academic credibility.',
-    services: [
-      'Research opportunity identification',
-      'Research opportunity database',
-      'Research methodology training',
-      'Lab report writing assistance',
-      'Project portfolio building',
-    ],
-  },
-  {
-    icon: ClipboardList,
-    title: 'Professional Skills & Application Prep',
-    description: 'Build materials that get noticed and skills that get results.',
-    services: [
-      'Resume and CV optimization',
-      'Cold outreach templates',
-      'Interview preparation',
-      'Presentation skills',
-      'Scientific communication training',
-    ],
-  },
-  {
-    icon: Brain,
-    title: 'STEM Tutoring & Subject Mastery',
-    description: 'Strengthen your knowledge where it counts.',
-    services: [
-      'Physics and nuclear engineering tutoring',
-      'Research methodology',
-      'Study skills coaching',
-    ],
-  },
-  {
-    icon: Network,
-    title: 'Community & Networking',
-    description: 'Surround yourself with people and systems that help you grow.',
-    services: [
-      'Virtual networking events',
-      'Cold outreach templates',
-      'Mentorship access (optional future feature)',
-    ],
-  },
-]
-
-const processSteps = [
-  {
-    icon: FileText,
-    title: 'Assessment',
-    text: 'We start by understanding your background, goals, and current position. No guesswork—just a clear picture of where you stand.'
-  },
-  {
-    icon: ClipboardList,
-    title: 'Strategy',
-    text: 'Based on your inputs, we co-design a path forward—customizing resources, services, and timelines that align with your unique vision.'
-  },
-  {
-    icon: CheckCircle,
-    title: 'Implementation',
-    text: 'We walk with you through each step: applications, research, prep work, and community engagement—making sure no ball is dropped.'
-  },
-  {
-    icon: GraduationCap,
-    title: 'Success',
-    text: 'Whether it’s a research lab, grad program, or internship offer—when you win, we win. And we stick around to support what comes next.'
-  },
 ]
 
 export default function HomePage() {
@@ -143,64 +61,234 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white font-academic">
+    <div className="min-h-screen bg-white">
       <Navigation />
       {/* Hero Section */}
-      <section className="container-max pt-32 pb-20 px-4 flex flex-col md:flex-row items-center md:items-start gap-12">
-        <div className="flex-1 md:pr-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-accent-navy mb-6 text-left">Empowering the Next Generation of STEM Talent</h1>
-          <p className="text-xl text-gray-700 mb-8 text-left max-w-2xl">
-            We provide students, researchers, and professionals with the tools and strategies to thrive in the world of science—no matter where they’re starting from.
-          </p>
-          <a href="#services" className="button-primary text-lg px-8 py-4 inline-block">Explore Services</a>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-gray-300 rounded-full opacity-20"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0.2, 0.4, 0.2],
+              }}
+              transition={{
+                duration: 6 + Math.random() * 4,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
         </div>
-        <div className="flex-1 w-full flex justify-center md:justify-end">
-          {/* Optionally, add a science-themed SVG or mesh here */}
-          <svg width="260" height="260" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg" className="hidden md:block">
-            <circle cx="130" cy="130" r="120" stroke="#8b2635" strokeWidth="2" fill="#f8f6f1" />
-            <circle cx="130" cy="130" r="80" stroke="#2c3e50" strokeWidth="1.5" fill="none" />
-            <circle cx="130" cy="130" r="40" stroke="#adb5bd" strokeWidth="1" fill="none" />
-            <circle cx="130" cy="70" r="8" fill="#8b2635" />
-            <circle cx="200" cy="130" r="6" fill="#2c3e50" />
-            <circle cx="130" cy="200" r="5" fill="#adb5bd" />
-            <circle cx="60" cy="130" r="4" fill="#2c3e50" />
-            <circle cx="130" cy="130" r="2" fill="#8b2635" />
-          </svg>
-        </div>
-      </section>
 
-      {/* Service Categories */}
-      <section id="services" className="container-max py-20 px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-accent-navy mb-12 text-center">Our Service Categories</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {serviceGroups.map((group, idx) => (
-            <div key={group.title} className="bg-[#f8f6f1] rounded-lg shadow-md p-8 flex flex-col gap-4 border border-gray-200">
-              <div className="flex items-center gap-3 mb-2">
-                <group.icon className="w-8 h-8 text-accent-burgundy" />
-                <span className="text-xl font-bold text-accent-navy">{group.title}</span>
+        <div className="container-max text-center z-10 px-4">
+          <motion.h1 
+            className="text-5xl md:text-7xl font-bold text-accent-navy mb-8 leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            Take the next step in your{' '}
+            <span className="relative inline-block">
+              <div className="h-20 md:h-28 flex items-center justify-center">
+                <motion.div
+                  key={currentTextIndex}
+                  className="text-accent-burgundy"
+                  initial={{ opacity: 0 }}
+                  animate={{ 
+                    opacity: show ? 1 : 0
+                  }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {textReelItems[currentTextIndex]}
+                </motion.div>
               </div>
-              <div className="text-gray-700 mb-2 text-base">{group.description}</div>
-              <ul className="list-disc pl-6 space-y-1">
-                {group.services.map((service) => (
-                  <li key={service} className="text-gray-800 text-base">{service}</li>
-                ))}
-              </ul>
+            </span>
+          </motion.h1>
+
+          <motion.p 
+            className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            The premier platform for students seeking STEM mentorship, connections & resources
+          </motion.p>
+
+          {/* Email Form */}
+          <motion.form 
+            onSubmit={handleEmailSubmit}
+            className="max-w-md mx-auto mb-8"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <div className="flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email to connect"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 input-field"
+                required
+              />
+              <button type="submit" className="button-primary">
+                Connect
+              </button>
             </div>
-          ))}
+          </motion.form>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+          >
+            <ChevronDown className="w-8 h-8 text-accent-navy mx-auto animate-bounce" />
+          </motion.div>
         </div>
       </section>
 
-      {/* Our Process Section */}
-      <section className="container-max py-20 px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-accent-navy mb-12 text-center">Our Process: Built for Breakthroughs</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {processSteps.map((step, idx) => (
-            <div key={step.title} className="bg-[#f8f6f1] rounded-lg shadow-md p-8 flex flex-col items-center border border-gray-200">
-              <step.icon className="w-10 h-10 mb-4 text-accent-burgundy" />
-              <div className="text-xl font-bold text-accent-navy mb-2">{step.title}</div>
-              <div className="text-gray-700 text-base text-center">{step.text}</div>
+      {/* Section 1: Tailored Approach */}
+      <section ref={section1Ref} className="section-padding academic-gradient">
+        <div className="container-max">
+          <motion.div
+            className="text-center max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 50 }}
+            animate={section1InView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-accent-navy mb-8">
+              Demystifying <span className="text-accent-burgundy">STEM pathways</span>
+            </h2>
+            <p className="text-xl text-gray-700 leading-relaxed mb-12">
+              Our approach is simple. We identify your fields of interest and current academic situation.<br/>
+              From there, we map out a career trajectory— aiding in everything from: project portfolio building, finding research internships and fellowships, developing your academic network, and providing personalized mentorship.
+            </p>
+            <Link href="/services">
+              <button className="button-primary text-lg px-8 py-4 mb-8 animate-fade-in-up">
+                Our Process
+              </button>
+            </Link>
+            {/* Animated Icons */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+              {[
+                { icon: BookOpen, title: "Research", desc: "Opportunity identification" },
+                { icon: Users, title: "Networking", desc: "Professional connections" },
+                { icon: Target, title: "Growth", desc: "Career advancement" }
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={section1InView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: index * 0.2 }}
+                >
+                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <item.icon className="w-8 h-8 text-accent-navy" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-accent-navy mb-2">{item.title}</h3>
+                  <p className="text-gray-600">{item.desc}</p>
+                </motion.div>
+              ))}
             </div>
-          ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Section 2: From Setbacks to Success */}
+      <section ref={section2Ref} className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-academic-cream to-white"></div>
+        <div className="container-max relative z-10">
+          <motion.div
+            className="text-center max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 50 }}
+            animate={section2InView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-accent-navy mb-8">
+              We are <span className="text-accent-burgundy">students too!</span>
+            </h2>
+            <p className="text-xl text-gray-700 leading-relaxed">
+              Eric, the founder of Criticality, began this platform in part to educate people on how lucrative STEM careers can truly be. High salaries, time flexibility, research-direction freedom, and compelling networks are the primary reasons why Eric ended up pursuing a Ph.D. in nuclear engineering at the University of Florida.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Section 3: Services Preview */}
+      <section ref={section3Ref} className="section-padding">
+        <div className="container-max">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 50 }}
+            animate={section3InView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-accent-navy mb-8">
+              Your STEM Future Starts Here
+            </h2>
+          </motion.div>
+
+          {/* Service Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                title: "Career Pathway Guidance",
+                desc: "Strategic planning for your STEM journey",
+                icon: Target
+              },
+              {
+                title: "Research & Networking",
+                desc: "Connect with opportunities and mentors",
+                icon: Users
+              },
+              {
+                title: "Skill Development",
+                desc: "Professional and technical growth",
+                icon: GraduationCap
+              },
+              {
+                title: "Academic Support",
+                desc: "Tutoring and recovery strategies",
+                icon: BookOpen
+              }
+            ].map((service, index) => (
+              <motion.div
+                key={index}
+                className="bg-white p-8 rounded-none shadow-md card-hover border border-gray-200"
+                initial={{ opacity: 0, y: 30 }}
+                animate={section3InView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+              >
+                <div className="w-12 h-12 bg-gray-200 rounded-none flex items-center justify-center mb-4">
+                  <service.icon className="w-6 h-6 text-accent-navy" />
+                </div>
+                <h3 className="text-xl font-semibold text-accent-navy mb-3">{service.title}</h3>
+                <p className="text-gray-600 mb-4">{service.desc}</p>
+                <Link href="/services" className="text-accent-burgundy hover:text-accent-navy font-medium inline-flex items-center">
+                  Learn more <ArrowRight className="w-4 h-4 ml-1" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={section3InView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            <Link href="/services" className="button-primary text-lg px-8 py-4">
+              Explore Services
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>
