@@ -9,32 +9,40 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#f5f7fa',
-          100: '#e0e0e0', // Light gray for borders/subtext
-          200: '#cfd8dc',
-          300: '#b0bec5',
-          400: '#90a4ae',
-          500: '#4F7FF0', // Bright blue (primary accent)
-          600: '#3a5fcf',
-          700: '#2546b8',
-          800: '#1a2e4f', // Deep navy (primary text)
-          900: '#1A1A2E', // Deepest navy/black
+          50: '#f8f9fa',
+          100: '#e9ecef',
+          200: '#dee2e6',
+          300: '#ced4da',
+          400: '#adb5bd',
+          500: '#6c757d', // Main academic gray
+          600: '#495057',
+          700: '#343a40',
+          800: '#212529', // Deep charcoal
+          900: '#1a1a1a', // Almost black
         },
         accent: {
-          blue: '#4F7FF0',
-          orange: '#FF6B00',
+          navy: '#2c3e50',
+          burgundy: '#8b2635',
+          gold: '#d4af37',
         },
-        background: '#FFFFFF',
-        border: '#E0E0E0',
+        background: '#ffffff',
+        border: '#dee2e6',
         text: {
-          primary: '#1A1A2E',
-          secondary: '#4F7FF0',
-          highlight: '#FF6B00',
-          sub: '#90a4ae',
+          primary: '#212529',
+          secondary: '#6c757d',
+          accent: '#8b2635',
+          muted: '#6c757d',
         },
+        academic: {
+          cream: '#f8f6f1',
+          parchment: '#f5f5dc',
+          charcoal: '#2c3e50',
+          burgundy: '#8b2635',
+        }
       },
       fontFamily: {
-        sans: ['Inter', 'Poppins', 'SF Pro', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['Times New Roman', 'Times', 'serif'],
+        academic: ['Times New Roman', 'Georgia', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

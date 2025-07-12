@@ -70,14 +70,14 @@ export default function HomePage() {
           {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-primary-200 rounded-full opacity-30"
+              className="absolute w-2 h-2 bg-gray-300 rounded-full opacity-20"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
               }}
               animate={{
                 y: [0, -20, 0],
-                opacity: [0.3, 0.6, 0.3],
+                opacity: [0.2, 0.4, 0.2],
               }}
               transition={{
                 duration: 6 + Math.random() * 4,
@@ -90,7 +90,7 @@ export default function HomePage() {
 
         <div className="container-max text-center z-10 px-4">
           <motion.h1 
-            className="text-5xl md:text-7xl font-bold text-primary-500 mb-8 leading-tight"
+            className="text-5xl md:text-7xl font-bold text-accent-navy mb-8 leading-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -100,11 +100,11 @@ export default function HomePage() {
               <div className="h-20 md:h-28 flex items-center justify-center">
                 <motion.div
                   key={currentTextIndex}
-                  className="text-primary-600"
+                  className="text-accent-burgundy"
                   initial={{ opacity: 0 }}
                   animate={{ 
                     opacity: show ? 1 : 0,
-                    filter: show ? 'brightness(1.1) drop-shadow(0 0 8px #4F7FF0)' : 'brightness(1)'
+                    filter: show ? 'brightness(1.05) drop-shadow(0 0 4px #8b2635)' : 'brightness(1)'
                   }}
                   transition={{ duration: 0.4 }}
                   style={{
@@ -154,7 +154,7 @@ export default function HomePage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <ChevronDown className="w-8 h-8 text-primary-500 mx-auto animate-bounce" />
+            <ChevronDown className="w-8 h-8 text-accent-navy mx-auto animate-bounce" />
           </motion.div>
         </div>
       </section>
@@ -168,12 +168,12 @@ export default function HomePage() {
             animate={section1InView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-primary-500 mb-8">
-              Demystifying <span className="text-accent-orange animate-pulse">STEM pathways</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-accent-navy mb-8">
+              Demystifying <span className="text-accent-burgundy">STEM pathways</span>
             </h2>
             <p className="text-xl text-gray-700 leading-relaxed mb-12">
-              Our approach is <span className="text-primary-500 font-semibold">simple</span>. We identify your <span className="text-accent-blue font-semibold">fields of interest</span> and <span className="text-accent-blue font-semibold">current academic situation</span>.<br/>
-              From there, we <span className="text-accent-orange font-semibold">map out a career trajectory</span>— aiding in everything from: <span className="text-primary-500 font-semibold">project portfolio building</span>, <span className="text-primary-500 font-semibold">finding research internships and fellowships</span>, <span className="text-primary-500 font-semibold">developing your academic network</span>, and <span className="text-accent-orange font-semibold">providing personalized mentorship</span>.
+              Our approach is <span className="text-accent-navy font-semibold">simple</span>. We identify your <span className="text-accent-burgundy font-semibold">fields of interest</span> and <span className="text-accent-burgundy font-semibold">current academic situation</span>.<br/>
+              From there, we <span className="text-accent-burgundy font-semibold">map out a career trajectory</span>— aiding in everything from: <span className="text-accent-navy font-semibold">project portfolio building</span>, <span className="text-accent-navy font-semibold">finding research internships and fellowships</span>, <span className="text-accent-navy font-semibold">developing your academic network</span>, and <span className="text-accent-burgundy font-semibold">providing personalized mentorship</span>.
             </p>
             <Link href="/services">
               <button className="button-primary text-lg px-8 py-4 mb-8 animate-fade-in-up">
@@ -194,10 +194,10 @@ export default function HomePage() {
                   animate={section1InView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: index * 0.2 }}
                 >
-                  <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                    <item.icon className="w-8 h-8 text-primary-500" />
+                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <item.icon className="w-8 h-8 text-accent-navy" />
                   </div>
-                  <h3 className="text-xl font-semibold text-primary-500 mb-2">{item.title}</h3>
+                  <h3 className="text-xl font-semibold text-accent-navy mb-2">{item.title}</h3>
                   <p className="text-gray-600">{item.desc}</p>
                 </motion.div>
               ))}
@@ -208,7 +208,7 @@ export default function HomePage() {
 
       {/* Section 2: From Setbacks to Success */}
       <section ref={section2Ref} className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-white"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-academic-cream to-white"></div>
         <div className="container-max relative z-10">
           <motion.div
             className="text-center max-w-4xl mx-auto"
@@ -216,11 +216,11 @@ export default function HomePage() {
             animate={section2InView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-primary-500 mb-8">
-              We are <span className="text-accent-blue animate-pulse">students too!</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-accent-navy mb-8">
+              We are <span className="text-accent-burgundy">students too!</span>
             </h2>
             <p className="text-xl text-gray-700 leading-relaxed">
-              <span className="text-primary-500 font-semibold">Eric</span>, the founder of <span className="text-accent-orange font-semibold">Criticality</span>, began this platform in part to educate people on how <span className="text-accent-blue font-semibold">lucrative STEM careers</span> can truly be. <span className="text-primary-500 font-semibold">High salaries</span>, <span className="text-primary-500 font-semibold">time flexibility</span>, <span className="text-accent-orange font-semibold">research-direction freedom</span>, and <span className="text-accent-blue font-semibold">compelling networks</span> are the primary reasons why Eric ended up pursuing a <span className="text-primary-500 font-semibold">Ph.D. in nuclear engineering</span> at the University of Florida.
+              <span className="text-accent-navy font-semibold">Eric</span>, the founder of <span className="text-accent-burgundy font-semibold">Criticality</span>, began this platform in part to educate people on how <span className="text-accent-burgundy font-semibold">lucrative STEM careers</span> can truly be. <span className="text-accent-navy font-semibold">High salaries</span>, <span className="text-accent-navy font-semibold">time flexibility</span>, <span className="text-accent-burgundy font-semibold">research-direction freedom</span>, and <span className="text-accent-burgundy font-semibold">compelling networks</span> are the primary reasons why Eric ended up pursuing a <span className="text-accent-navy font-semibold">Ph.D. in nuclear engineering</span> at the University of Florida.
             </p>
           </motion.div>
         </div>
@@ -235,7 +235,7 @@ export default function HomePage() {
             animate={section3InView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-primary-500 mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-accent-navy mb-8">
               Your STEM Future Starts Here
             </h2>
           </motion.div>
@@ -266,17 +266,17 @@ export default function HomePage() {
             ].map((service, index) => (
               <motion.div
                 key={index}
-                className="bg-white p-8 rounded-lg shadow-lg card-hover border border-gray-100"
+                className="bg-white p-8 rounded-none shadow-md card-hover border border-gray-200"
                 initial={{ opacity: 0, y: 30 }}
                 animate={section3InView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: index * 0.1 }}
               >
-                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
-                  <service.icon className="w-6 h-6 text-primary-500" />
+                <div className="w-12 h-12 bg-gray-200 rounded-none flex items-center justify-center mb-4">
+                  <service.icon className="w-6 h-6 text-accent-navy" />
                 </div>
-                <h3 className="text-xl font-semibold text-primary-500 mb-3">{service.title}</h3>
+                <h3 className="text-xl font-semibold text-accent-navy mb-3">{service.title}</h3>
                 <p className="text-gray-600 mb-4">{service.desc}</p>
-                <Link href="/services" className="text-primary-500 hover:text-primary-600 font-medium inline-flex items-center">
+                <Link href="/services" className="text-accent-burgundy hover:text-accent-navy font-medium inline-flex items-center">
                   Learn more <ArrowRight className="w-4 h-4 ml-1" />
                 </Link>
               </motion.div>
