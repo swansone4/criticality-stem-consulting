@@ -4,6 +4,10 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Navigation from '@/components/Navigation'
 import { Award, GraduationCap, Building2, Users, Target, BookOpen } from 'lucide-react'
+import Image from 'next/image'
+
+// INSTRUCTIONS: Place your portrait image at /public/about-portrait.jpg
+// Example: /public/about-portrait.jpg (relative to project root)
 
 const timelineData = [
   {
@@ -82,173 +86,66 @@ export default function AboutPage() {
   })
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white font-academic">
       <Navigation />
-      
-      {/* Hero Section */}
-      <section ref={heroRef} className="pt-32 pb-16 section-padding">
-        <div className="container-max">
-          <motion.div
-            className="text-center max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-5xl md:text-6xl font-bold text-primary-500 mb-8">
-              The Science of Academic Transformation
-            </h1>
-            <p className="text-xl text-gray-700 leading-relaxed mb-12">
-              Our founder's journey from academic suspension to PhD acceptance at the University of Florida, 
-              with research experience at Oak Ridge National Lab and NIST, demonstrates the power of 
-              strategic guidance and mentorship in STEM career development.
-            </p>
-          </motion.div>
-
-          {/* Credentials Grid */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            {[
-              {
-                icon: Building2,
-                title: 'Oak Ridge National Lab',
-                description: 'Research experience in nuclear engineering and materials science'
-              },
-              {
-                icon: Award,
-                title: 'NIST Research',
-                description: 'Advanced research in standards and measurement technologies'
-              },
-              {
-                icon: GraduationCap,
-                title: 'University of Florida PhD',
-                description: 'Nuclear engineering doctoral program acceptance and research'
-              }
-            ].map((credential, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-8 rounded-lg shadow-lg border border-gray-100 text-center card-hover"
-                initial={{ opacity: 0, y: 30 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
-              >
-                <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <credential.icon className="w-8 h-8 text-primary-500" />
-                </div>
-                <h3 className="text-xl font-semibold text-primary-500 mb-3">{credential.title}</h3>
-                <p className="text-gray-600">{credential.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Mission Statement */}
-      <section className="section-padding academic-gradient">
-        <div className="container-max">
-          <motion.div
-            className="text-center max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-primary-500 mb-8">
-              Mission Statement
-            </h2>
-            <p className="text-xl text-gray-700 leading-relaxed">
-              Empowering STEM students to reach their critical mass of success through personalized guidance, 
-              proven strategies, and hands-on mentorship. We transform academic challenges into opportunities 
-              for growth, research excellence, and career advancement.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Interactive Timeline */}
-      <section ref={timelineRef} className="section-padding">
-        <div className="container-max">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-primary-500 text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={timelineInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            The Journey to Success
-          </motion.h2>
-
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-1/2 transform -translate-x-px w-0.5 h-full bg-primary-200"></div>
-
-            {timelineData.map((item, index) => (
-              <motion.div
-                key={index}
-                className={`relative flex items-center mb-12 ${
-                  index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
-                }`}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                animate={timelineInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-              >
-                {/* Timeline Content */}
-                <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8' : 'pl-8'}`}>
-                  <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-100 card-hover">
-                    <div className="flex items-center mb-3">
-                      <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center mr-3">
-                        <item.icon className="w-5 h-5 text-primary-500" />
-                      </div>
-                      <span className="text-sm font-semibold text-primary-500">{item.year}</span>
-                    </div>
-                    <h3 className="text-xl font-semibold text-primary-500 mb-2">{item.title}</h3>
-                    <p className="text-gray-600">{item.description}</p>
-                  </div>
-                </div>
-
-                {/* Timeline Dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary-500 rounded-full border-4 border-white shadow-lg"></div>
-              </motion.div>
-            ))}
+      {/* Section 1: The Why Quote Block */}
+      <section className="container-max my-16 px-4">
+        <div className="flex flex-col md:flex-row items-center gap-8">
+          {/* Left: Portrait Image */}
+          <div className="flex-shrink-0">
+            <Image
+              src="/about-portrait.jpg"
+              alt="Eric, Founder"
+              width={224}
+              height={224}
+              className="w-48 h-48 md:w-56 md:h-56 object-cover rounded-full shadow-lg grayscale hover:grayscale-0 transition duration-300"
+              priority
+            />
+          </div>
+          {/* Right: Quote Block */}
+          <div className="bg-[#f8f6f1] rounded-lg p-8 flex-1 shadow-sm">
+            <blockquote className="italic text-2xl md:text-3xl font-serif mb-4">
+              "I knew there was something wrong with the way we think about STEM careers when some of my students looked visibly confused after I told them that a physics degree is one of the most future-proof, flexible, and valuable degrees you can earn."
+            </blockquote>
+            <div className="text-right text-gray-500 text-base mt-2">— Eric, Founder of Criticality</div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section ref={testimonialsRef} className="section-padding academic-gradient">
-        <div className="container-max">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-primary-500 text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            Client Success Stories
-          </motion.h2>
+      {/* Section 2: Mission Statement Text Bubble */}
+      <section className="max-w-xl mx-auto my-12 px-4">
+        <div className="relative bg-[#f8f6f1] rounded-xl shadow-md px-8 py-6">
+          <div className="font-bold text-lg mb-2">Why Criticality Exists</div>
+          <div className="text-base leading-relaxed">
+            As we approach a world that increasingly depends on minds trained in research, development, and innovation across STEM, a stark reality remains:<br /><br />
+            Access to meaningful STEM careers is often reserved for those closest to elite professors, prestigious institutions, and expensive resources.<br /><br />
+            <span className="font-semibold">Criticality exists to change that.</span><br />
+            Our mission is to demystify the pathway into STEM roles—whether in academia, R&D, or industry—so that talent, not privilege, becomes the determining factor for success.
+          </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-8 rounded-lg shadow-lg border border-gray-100 card-hover"
-                initial={{ opacity: 0, y: 30 }}
-                animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-              >
-                <div className="mb-6">
-                  <p className="text-gray-700 italic mb-4">"{testimonial.content}"</p>
-                  <div className="border-l-4 border-primary-500 pl-4">
-                    <p className="font-semibold text-primary-500">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
-                  </div>
-                </div>
-                <div className="bg-primary-50 p-4 rounded-lg">
-                  <p className="text-sm font-semibold text-primary-600">Outcome:</p>
-                  <p className="text-primary-500 font-medium">{testimonial.outcome}</p>
-                </div>
-              </motion.div>
-            ))}
+      {/* Section 3: The Founder's Story */}
+      <section className="relative my-16 px-4">
+        {/* Optionally, faded image watermark for desktop */}
+        <div className="hidden md:block absolute right-0 top-0 w-64 h-64 opacity-10 pointer-events-none select-none" style={{zIndex:0}}>
+          <Image
+            src="/about-portrait.jpg"
+            alt="Eric, Founder watermark"
+            fill
+            style={{objectFit:'cover'}}
+          />
+        </div>
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <div className="font-extrabold text-3xl font-serif mb-2">The Founder’s Story</div>
+          <div className="w-24 h-1 bg-accent-burgundy mb-6 rounded"></div>
+          <div className="text-lg leading-relaxed">
+            <span className="font-bold text-xl">I almost failed out of college.</span><br /><br />
+            By the end of my second semester at a state university, my GPA had dropped below 2.0. I was lost—directionless—and unsure if I belonged in the world of science at all.<br /><br />
+            But I kept moving. After countless cold emails, I landed my first research role doing work I didn’t even enjoy. Still, it was a start. I pivoted. Again and again.<br /><br />
+            Eventually, something stuck.<br /><br />
+            Within a year, I was conducting research at Oak Ridge National Laboratory and the National Institute of Standards and Technology. Not long after, I was accepted into a Ph.D. program at the University of Florida.<br /><br />
+            That’s what Criticality is built on: the belief that with the right access, support, and strategy, any driven person can break into high-impact STEM fields—no matter where they start.
           </div>
         </div>
       </section>
