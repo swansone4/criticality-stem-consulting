@@ -86,7 +86,12 @@ export default function AboutPage() {
   })
 
   return (
-    <div className="min-h-screen bg-white font-academic">
+    <motion.div
+      className="min-h-screen bg-white font-academic"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
       <Navigation />
       {/* Section 1: The Why Quote Block */}
       <section className="container-max my-16 px-4">
@@ -149,6 +154,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </div>
+    </motion.div>
   )
 } 

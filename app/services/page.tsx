@@ -1,10 +1,16 @@
 'use client'
 
 import Navigation from '@/components/Navigation'
+import { motion } from 'framer-motion'
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-white font-academic">
+    <motion.div
+      className="min-h-screen bg-white font-academic"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
       <Navigation />
       <section className="container-max px-4 py-16">
         {/* Page Title & Intro */}
@@ -85,6 +91,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-    </div>
+    </motion.div>
   )
 } 
