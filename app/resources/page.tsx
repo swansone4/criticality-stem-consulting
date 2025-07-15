@@ -8,8 +8,7 @@ import Image from 'next/image'
 const categories = [
   { key: 'blogs', label: 'Blogs' },
   { key: 'videos', label: 'Videos' },
-  { key: 'guides', label: 'Guides & Templates' },
-  { key: 'tools', label: 'Tools & Downloads' },
+  // Removed 'Guides & Templates' and 'Tools & Downloads'
 ]
 
 const featuredResource = {
@@ -42,24 +41,7 @@ const resources = [
     type: 'Video',
     duration: '8:32',
   },
-  {
-    id: 4,
-    category: 'guides',
-    title: 'Graduate School Application Checklist',
-    description: 'Downloadable checklist to keep your grad school applications on track.',
-    date: 'February 2024',
-    image: '/placeholder-thumb.jpg',
-    type: 'Guide',
-  },
-  {
-    id: 5,
-    category: 'tools',
-    title: 'Research Email Templates',
-    description: 'Ready-to-use email templates for cold outreach to professors and labs.',
-    date: 'January 2024',
-    image: '/placeholder-thumb.jpg',
-    type: 'Tool',
-  },
+  // Removed guides and tools resources
 ]
 
 const recommended = [
@@ -103,7 +85,7 @@ export default function ResourcesPage() {
       transition={{ duration: 0.8 }}
     >
       <Navigation />
-      <section className="container-max px-4 py-12">
+      <section className="container-max px-4 pt-24 pb-12"> {/* Increased top padding from py-12 to pt-24 pb-12 */}
         {/* Hero Section */}
         <motion.div
           className="mb-10 text-center"
@@ -112,7 +94,7 @@ export default function ResourcesPage() {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-4xl md:text-5xl font-bold text-accent-navy mb-2">Resources</h1>
-          <p className="text-lg text-gray-700">Your central nexus for STEM career insights, guides, and inspiration.</p>
+          {/* Removed subheading */}
         </motion.div>
 
         {/* Category Navigation */}
@@ -208,26 +190,7 @@ export default function ResourcesPage() {
         </div>
 
         {/* Sidebar Recommended (desktop) */}
-        <aside className="hidden lg:block fixed right-8 top-32 w-72">
-          <div className="bg-[#f8f6f1] rounded-lg shadow-md p-6 mb-8">
-            <div className="font-bold text-lg text-accent-navy mb-4">Recommended for You</div>
-            <ul className="space-y-4">
-              {recommended.map(item => (
-                <li key={item.id} className="flex items-center gap-3">
-                  <div className="w-12 h-12 relative flex-shrink-0">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover rounded-md grayscale hover:grayscale-0 transition duration-300"
-                    />
-                  </div>
-                  <span className="text-base text-accent-navy font-medium">{item.title}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </aside>
+        {/* Removed the entire aside for 'Recommended for You' */}
 
         {/* Footer Newsletter Banner */}
         <footer className="mt-24 bg-[#f8f6f1] rounded-lg shadow-md p-8 text-center max-w-2xl mx-auto">
