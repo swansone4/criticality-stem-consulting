@@ -1,105 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-// Mock resources data - in production this would come from a database
-const resources = [
-  {
-    id: 1,
-    title: 'STEM Career Planning Guide',
-    type: 'pdf',
-    category: 'Career Guides',
-    description: 'Comprehensive guide for planning your STEM career path from undergraduate to professional levels.',
-    fileUrl: '/resources/stem-career-planning-guide.pdf',
-    fileSize: '2.3 MB',
-    downloadCount: 1247,
-    tags: ['career-planning', 'undergraduate', 'graduate', 'professional'],
-    featured: true
-  },
-  {
-    id: 2,
-    title: 'Research Opportunity Database',
-    type: 'interactive',
-    category: 'Research Opportunities',
-    description: 'Searchable database of internships, fellowships, and research programs at national labs and universities.',
-    fileUrl: '/resources/research-opportunities-database',
-    fileSize: 'N/A',
-    downloadCount: 892,
-    tags: ['research', 'internships', 'fellowships', 'national-labs'],
-    featured: true
-  },
-  {
-    id: 3,
-    title: 'Cold Email Templates for STEM',
-    type: 'docx',
-    category: 'Communication',
-    description: 'Professional email templates for reaching out to professors, researchers, and industry professionals.',
-    fileUrl: '/resources/cold-email-templates.docx',
-    fileSize: '156 KB',
-    downloadCount: 2156,
-    tags: ['networking', 'communication', 'email-templates'],
-    featured: true
-  },
-  {
-    id: 4,
-    title: 'Physics Study Strategies',
-    type: 'pdf',
-    category: 'Academic Support',
-    description: 'Proven study methods and strategies for mastering physics concepts and problem-solving techniques.',
-    fileUrl: '/resources/physics-study-strategies.pdf',
-    fileSize: '1.8 MB',
-    downloadCount: 943,
-    tags: ['physics', 'study-strategies', 'academic-support'],
-    featured: false
-  },
-  {
-    id: 5,
-    title: 'Nuclear Engineering Career Path',
-    type: 'pdf',
-    category: 'Career Guides',
-    description: 'Detailed overview of career opportunities in nuclear engineering from research to industry.',
-    fileUrl: '/resources/nuclear-engineering-career-path.pdf',
-    fileSize: '3.1 MB',
-    downloadCount: 567,
-    tags: ['nuclear-engineering', 'career-path', 'industry'],
-    featured: false
-  },
-  {
-    id: 6,
-    title: 'Graduate School Application Checklist',
-    type: 'pdf',
-    category: 'Graduate School',
-    description: 'Comprehensive checklist for preparing competitive graduate school applications.',
-    fileUrl: '/resources/graduate-school-checklist.pdf',
-    fileSize: '890 KB',
-    downloadCount: 1789,
-    tags: ['graduate-school', 'applications', 'checklist'],
-    featured: true
-  },
-  {
-    id: 7,
-    title: 'Resume Optimization Guide',
-    type: 'pdf',
-    category: 'Professional Development',
-    description: 'Step-by-step guide for creating compelling resumes for STEM positions.',
-    fileUrl: '/resources/resume-optimization-guide.pdf',
-    fileSize: '1.2 MB',
-    downloadCount: 2341,
-    tags: ['resume', 'professional-development', 'job-application'],
-    featured: false
-  },
-  {
-    id: 8,
-    title: 'Interview Preparation for STEM',
-    type: 'pdf',
-    category: 'Professional Development',
-    description: 'Comprehensive guide for preparing for technical and behavioral interviews in STEM fields.',
-    fileUrl: '/resources/interview-preparation-stem.pdf',
-    fileSize: '2.7 MB',
-    downloadCount: 1654,
-    tags: ['interview', 'preparation', 'technical'],
-    featured: false
-  }
-];
+const Resource = require('../models/Resource');
 
 // GET /api/resources - Get all resources with filtering
 router.get('/', async (req, res) => {
@@ -111,71 +12,71 @@ router.get('/', async (req, res) => {
       search,
       page = 1,
       limit = 10,
-      sortBy = 'downloadCount',
-      sortOrder = 'desc'
+      sortBy = 'publishedAt',
+      sortOrder = 'desc',
+      status = 'published' // Only show published by default
     } = req.query;
 
-    let filteredResources = [...resources];
-
-    // Apply filters
+    // Build query
+    const query = { status };
+    
     if (category) {
-      filteredResources = filteredResources.filter(r => 
-        r.category === category
-      );
+      query.category = category;
     }
 
     if (type) {
-      filteredResources = filteredResources.filter(r => 
-        r.type === type
-      );
+      query.type = type;
     }
 
     if (featured === 'true') {
-      filteredResources = filteredResources.filter(r => 
-        r.featured === true
-      );
+      query.featured = true;
     }
 
     if (search) {
-      const searchLower = search.toLowerCase();
-      filteredResources = filteredResources.filter(r => 
-        r.title.toLowerCase().includes(searchLower) ||
-        r.description.toLowerCase().includes(searchLower) ||
-        r.tags.some(tag => tag.toLowerCase().includes(searchLower))
-      );
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+        { tags: { $in: [new RegExp(search, 'i')] } }
+      ];
     }
 
-    // Apply sorting
-    filteredResources.sort((a, b) => {
-      const aValue = a[sortBy];
-      const bValue = b[sortBy];
-      
-      if (sortOrder === 'desc') {
-        return bValue > aValue ? 1 : -1;
-      } else {
-        return aValue > bValue ? 1 : -1;
-      }
-    });
+    // Build sort object
+    const sort = {};
+    sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
 
-    // Apply pagination
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const paginatedResources = filteredResources.slice(startIndex, endIndex);
+    // Execute query with pagination
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    const [resources, total] = await Promise.all([
+      Resource.find(query)
+        .sort(sort)
+        .skip(skip)
+        .limit(parseInt(limit))
+        .select('-content.body') // Don't send full content in list view
+        .lean(),
+      Resource.countDocuments(query)
+    ]);
+
+    // Get unique categories and types for filters
+    const [categories, types] = await Promise.all([
+      Resource.distinct('category', { status: 'published' }),
+      Resource.distinct('type', { status: 'published' })
+    ]);
 
     res.json({
       success: true,
       data: {
-        resources: paginatedResources,
+        resources,
         pagination: {
           currentPage: parseInt(page),
-          totalPages: Math.ceil(filteredResources.length / limit),
-          totalResources: filteredResources.length,
-          hasNextPage: endIndex < filteredResources.length,
+          totalPages: Math.ceil(total / limit),
+          totalResources: total,
+          hasNextPage: skip + resources.length < total,
           hasPrevPage: page > 1
         },
         filters: {
-          categories: [...new Set(resources.map(r => r.category))],
-          types: [...new Set(resources.map(r => r.type))]
+          categories,
+          types
         }
       }
     });
@@ -190,37 +91,14 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/resources/:id - Get specific resource
-router.get('/:id', async (req, res) => {
-  try {
-    const resource = resources.find(r => r.id === parseInt(req.params.id));
-    
-    if (!resource) {
-      return res.status(404).json({
-        success: false,
-        message: 'Resource not found'
-      });
-    }
-
-    res.json({
-      success: true,
-      data: resource
-    });
-
-  } catch (error) {
-    console.error('Get resource error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch resource',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  }
-});
-
 // GET /api/resources/featured - Get featured resources
 router.get('/featured', async (req, res) => {
   try {
-    const featuredResources = resources.filter(r => r.featured);
+    const featuredResources = await Resource.findFeatured()
+      .select('-content.body')
+      .sort({ publishedAt: -1 })
+      .limit(6)
+      .lean();
 
     res.json({
       success: true,
@@ -237,11 +115,14 @@ router.get('/featured', async (req, res) => {
   }
 });
 
-// POST /api/resources/:id/download - Track resource download
-router.post('/:id/download', async (req, res) => {
+// GET /api/resources/:slug - Get specific resource by slug
+router.get('/:slug', async (req, res) => {
   try {
-    const resource = resources.find(r => r.id === parseInt(req.params.id));
-    
+    const resource = await Resource.findOne({ 
+      slug: req.params.slug,
+      status: 'published'
+    });
+
     if (!resource) {
       return res.status(404).json({
         success: false,
@@ -249,65 +130,201 @@ router.post('/:id/download', async (req, res) => {
       });
     }
 
-    // In a real application, you would update the download count in the database
-    resource.downloadCount += 1;
+    // Increment view count
+    await resource.incrementViews();
 
     res.json({
       success: true,
-      message: 'Download tracked successfully',
-      data: {
-        downloadCount: resource.downloadCount
-      }
+      data: resource
     });
 
   } catch (error) {
-    console.error('Track download error:', error);
+    console.error('Get resource error:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to track download',
+      message: 'Failed to fetch resource',
       error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });
   }
 });
 
-// GET /api/resources/stats/summary - Get resource statistics
-router.get('/stats/summary', async (req, res) => {
+// POST /api/resources - Create new resource (Admin only)
+router.post('/', async (req, res) => {
   try {
-    const totalResources = resources.length;
-    const totalDownloads = resources.reduce((sum, r) => sum + r.downloadCount, 0);
-    const averageDownloads = Math.round(totalDownloads / totalResources);
+    // TODO: Add authentication middleware to check if user is admin
+    // For now, we'll allow creation but in production you'd want proper auth
+
+    const resourceData = req.body;
     
-    const categoryStats = resources.reduce((acc, r) => {
-      acc[r.category] = (acc[r.category] || 0) + 1;
-      return acc;
-    }, {});
+    // Validate required fields based on category
+    if (resourceData.category === 'blogs' && !resourceData.content?.body) {
+      return res.status(400).json({
+        success: false,
+        message: 'Blog content is required'
+      });
+    }
 
-    const typeStats = resources.reduce((acc, r) => {
-      acc[r.type] = (acc[r.type] || 0) + 1;
-      return acc;
-    }, {});
+    if (resourceData.category === 'videos' && !resourceData.content?.videoUrl) {
+      return res.status(400).json({
+        success: false,
+        message: 'Video URL is required'
+      });
+    }
 
-    const topResources = resources
-      .sort((a, b) => b.downloadCount - a.downloadCount)
-      .slice(0, 5);
+    const resource = new Resource(resourceData);
+    await resource.save();
 
-    res.json({
+    res.status(201).json({
       success: true,
-      data: {
-        totalResources,
-        totalDownloads,
-        averageDownloads,
-        categoryStats,
-        typeStats,
-        topResources
-      }
+      message: 'Resource created successfully',
+      data: resource
     });
 
   } catch (error) {
-    console.error('Get resource stats error:', error);
+    console.error('Create resource error:', error);
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error',
+        errors: Object.values(error.errors).map(err => err.message)
+      });
+    }
+
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: 'A resource with this slug already exists'
+      });
+    }
+
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch resource statistics',
+      message: 'Failed to create resource',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// PUT /api/resources/:id - Update resource (Admin only)
+router.put('/:id', async (req, res) => {
+  try {
+    // TODO: Add authentication middleware
+    const resource = await Resource.findById(req.params.id);
+
+    if (!resource) {
+      return res.status(404).json({
+        success: false,
+        message: 'Resource not found'
+      });
+    }
+
+    const updatedResource = await Resource.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    res.json({
+      success: true,
+      message: 'Resource updated successfully',
+      data: updatedResource
+    });
+
+  } catch (error) {
+    console.error('Update resource error:', error);
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error',
+        errors: Object.values(error.errors).map(err => err.message)
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update resource',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// DELETE /api/resources/:id - Delete resource (Admin only)
+router.delete('/:id', async (req, res) => {
+  try {
+    // TODO: Add authentication middleware
+    const resource = await Resource.findById(req.params.id);
+
+    if (!resource) {
+      return res.status(404).json({
+        success: false,
+        message: 'Resource not found'
+      });
+    }
+
+    await Resource.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: 'Resource deleted successfully'
+    });
+
+  } catch (error) {
+    console.error('Delete resource error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete resource',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// POST /api/resources/:id/like - Like a resource
+router.post('/:id/like', async (req, res) => {
+  try {
+    const resource = await Resource.findById(req.params.id);
+
+    if (!resource) {
+      return res.status(404).json({
+        success: false,
+        message: 'Resource not found'
+      });
+    }
+
+    await resource.incrementLikes();
+
+    res.json({
+      success: true,
+      message: 'Resource liked successfully',
+      data: { likes: resource.likes }
+    });
+
+  } catch (error) {
+    console.error('Like resource error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to like resource',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// GET /api/resources/tags/all - Get all unique tags
+router.get('/tags/all', async (req, res) => {
+  try {
+    const tags = await Resource.distinct('tags', { status: 'published' });
+    
+    res.json({
+      success: true,
+      data: tags.sort()
+    });
+
+  } catch (error) {
+    console.error('Get tags error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch tags',
       error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });
   }
