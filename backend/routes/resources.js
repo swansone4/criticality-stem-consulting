@@ -1,3 +1,4 @@
+// DEPRECATED: Resources are now loaded statically from the public/resources directory. This API is no longer used.
 const express = require('express');
 const router = express.Router();
 const Resource = require('../models/Resource');

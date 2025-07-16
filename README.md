@@ -2,6 +2,13 @@
 
 A modern, minimalistic STEM career consulting website with comprehensive backend functionality for lead generation and client management.
 
+## 🚨 Resources Page Update
+
+The Resources page is now fully static and file-based. To add or update resources (blogs or videos):
+- Add markdown files to `public/resources/blogs/` for blogs.
+- Add entries to `public/resources/videos/videos.json` for videos.
+- No backend or API is required for resources.
+
 ## 🎯 Project Overview
 
 Criticality is a sophisticated web platform designed to help STEM students and professionals reach their "critical mass" of success through personalized guidance, research opportunities, and academic transformation strategies.
