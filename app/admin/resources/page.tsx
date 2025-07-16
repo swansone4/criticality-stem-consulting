@@ -144,7 +144,11 @@ export default function AdminResourcesPage() {
       description: resource.description,
       category: resource.category,
       type: resource.type,
-      content: resource.content,
+      content: {
+        body: resource.content.body || '',
+        videoUrl: resource.content.videoUrl || '',
+        duration: resource.content.duration ?? 0,
+      },
       image: resource.image,
       tags: resource.tags,
       featured: resource.featured,
