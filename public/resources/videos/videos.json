@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Example STEM Video",
+    "description": "A sample video entry for the resources page.",
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "duration": 300,
+    "author": "Alex Smith",
+    "date": "2024-07-01",
+    "tags": ["example", "video", "demo"],
+    "featured": false,
+    "image": "/resources/videos/example-video-thumb.jpg"
+  }
+] 
