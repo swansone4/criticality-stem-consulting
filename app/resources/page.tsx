@@ -1,5 +1,4 @@
 import { generateResources } from '@/lib/generateResources'
-import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Image from 'next/image'
 
@@ -14,26 +13,13 @@ export default function ResourcesPage() {
   const availableTags = Array.from(new Set(resources.flatMap(r => r.tags || [])))
   const featuredResource = resources.find(r => r.featured) || null
 
-  // For demo: no search/filter state, just show all resources
-  // You can add search/filter logic with useState if you want client-side interactivity
-
   return (
-    <motion.div
-      className="min-h-screen bg-white font-academic"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
+    <div className="min-h-screen bg-white font-academic">
       <Navigation />
       <section className="container-max px-4 pt-24 pb-12">
-        <motion.div
-          className="mb-10 text-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
+        <div className="mb-10 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-accent-navy mb-2">Resources</h1>
-        </motion.div>
+        </div>
         {/* Category Navigation */}
         <nav className="flex flex-wrap justify-center gap-6 mb-8 border-b border-gray-200 pb-2" aria-label="Resource categories">
           {categories.map(cat => (
@@ -74,14 +60,10 @@ export default function ResourcesPage() {
         )}
         {/* Resource Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {resources.map((r, i) => (
-            <motion.div
+          {resources.map((r) => (
+            <div
               key={r.slug}
               className="bg-[#f8f6f1] rounded-lg shadow-md p-6 flex flex-col transition-all duration-300 hover:shadow-lg"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
             >
               <div className="relative mb-4 h-40 w-full">
                 <Image
@@ -100,7 +82,7 @@ export default function ResourcesPage() {
               <a href={r.category === 'videos' ? r.videoUrl : `/resources/${r.slug}`} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium" target={r.category === 'videos' ? '_blank' : undefined}>
                 {r.type === 'Video' ? 'Watch' : 'Read More'}
               </a>
-            </motion.div>
+            </div>
           ))}
         </div>
         {/* Footer Newsletter Banner */}
@@ -117,6 +99,6 @@ export default function ResourcesPage() {
           </form>
         </footer>
       </section>
-    </motion.div>
+    </div>
   )
 } 
