@@ -99,12 +99,13 @@ export default function AboutPage() {
           {/* Left: Portrait Image */}
           <div className="flex-shrink-0">
             <Image
-              src="/about-portrait.jpg"
+              src={typeof window !== 'undefined' && window.location.pathname.startsWith('/tutoring') ? '/tutoring/about-portrait.jpg' : '/about-portrait.jpg'}
               alt="Eric, Founder"
               width={224}
               height={224}
               className="w-48 h-48 md:w-56 md:h-56 object-cover rounded-full shadow-lg grayscale hover:grayscale-0 transition duration-300"
               priority
+              onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/224x224?text=No+Image' }}
             />
           </div>
           {/* Right: Quote Block */}
@@ -135,10 +136,11 @@ export default function AboutPage() {
         {/* Optionally, faded image watermark for desktop */}
         <div className="hidden md:block absolute right-0 top-0 w-64 h-64 opacity-10 pointer-events-none select-none" style={{zIndex:0}}>
           <Image
-            src="/about-portrait.jpg"
+            src={typeof window !== 'undefined' && window.location.pathname.startsWith('/tutoring') ? '/tutoring/about-portrait.jpg' : '/about-portrait.jpg'}
             alt="Eric, Founder watermark"
             fill
             style={{objectFit:'cover'}}
+            onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/256x256?text=No+Image' }}
           />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">

@@ -1,17 +1,26 @@
 import { generateResources } from '@/lib/generateResources'
 import Navigation from '@/components/Navigation'
 import Image from 'next/image'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-static'
 
-export default function ResourcesPage() {
+function getCategoryFromSearchParams(searchParams: { [key: string]: string | string[] | undefined }) {
+  const cat = searchParams.category
+  if (cat === 'videos' || cat === 'blogs') return cat
+  return 'blogs'
+}
+
+export default function ResourcesPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
   const resources = generateResources()
   const categories = [
     { key: 'blogs', label: 'Blogs' },
     { key: 'videos', label: 'Videos' },
   ]
-  const availableTags = Array.from(new Set(resources.flatMap(r => r.tags || [])))
-  const featuredResource = resources.find(r => r.featured) || null
+  const selectedCategory = getCategoryFromSearchParams(searchParams)
+  const filteredResources = resources.filter(r => r.category === selectedCategory)
+  const featuredResource = filteredResources.find(r => r.featured) || filteredResources[0] || null
 
   return (
     <div className="min-h-screen bg-white font-academic">
@@ -23,12 +32,13 @@ export default function ResourcesPage() {
         {/* Category Navigation */}
         <nav className="flex flex-wrap justify-center gap-6 mb-8 border-b border-gray-200 pb-2" aria-label="Resource categories">
           {categories.map(cat => (
-            <span
+            <a
               key={cat.key}
-              className={`text-lg font-semibold pb-1 transition-colors duration-200 text-accent-navy`}
+              href={`?category=${cat.key}`}
+              className={`text-lg font-semibold pb-1 transition-colors duration-200 ${selectedCategory === cat.key ? 'text-accent-burgundy border-b-2 border-accent-burgundy' : 'text-accent-navy'}`}
             >
               {cat.label}
-            </span>
+            </a>
           ))}
         </nav>
         {/* Featured Section */}
@@ -41,6 +51,7 @@ export default function ResourcesPage() {
                   alt={featuredResource.title}
                   fill
                   className="object-cover rounded-md grayscale hover:grayscale-0 transition duration-300"
+                  unoptimized
                 />
                 <span className="absolute top-2 left-2 bg-white text-xs text-accent-navy px-2 py-1 rounded font-semibold">Featured</span>
               </div>
@@ -60,7 +71,7 @@ export default function ResourcesPage() {
         )}
         {/* Resource Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {resources.map((r) => (
+          {filteredResources.map((r) => (
             <div
               key={r.slug}
               className="bg-[#f8f6f1] rounded-lg shadow-md p-6 flex flex-col transition-all duration-300 hover:shadow-lg"
@@ -71,6 +82,7 @@ export default function ResourcesPage() {
                   alt={r.title}
                   fill
                   className="object-cover rounded-md grayscale hover:grayscale-0 transition duration-300"
+                  unoptimized
                 />
               </div>
               <h3 className="text-xl font-bold text-accent-navy mb-1">{r.title}</h3>
