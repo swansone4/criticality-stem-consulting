@@ -153,7 +153,11 @@ export default function AdminResourcesPage() {
       tags: resource.tags,
       featured: resource.featured,
       status: resource.status,
-      author: resource.author,
+      author: {
+        name: resource.author.name,
+        bio: resource.author.bio || '',
+        avatar: resource.author.avatar || '/default-avatar.jpg',
+      },
       metaTitle: resource.metaTitle || '',
       metaDescription: resource.metaDescription || ''
     })
