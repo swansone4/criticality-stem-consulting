@@ -95,22 +95,7 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            Take the next step in your{' '}
-            <span className="relative inline-block">
-              <div className="h-20 md:h-28 flex items-center justify-center">
-                <motion.div
-                  key={currentTextIndex}
-                  className="text-accent-burgundy"
-                  initial={{ opacity: 0 }}
-                  animate={{ 
-                    opacity: show ? 1 : 0
-                  }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {textReelItems[currentTextIndex]}
-                </motion.div>
-              </div>
-            </span>
+            We Elevate Hidden Talent in STEM
           </motion.h1>
 
           <motion.p 
@@ -119,7 +104,8 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            The premier platform for students seeking STEM mentorship, connections & resources
+            A platform designed for students seeking STEM mentorship, connections and resources.<br/>
+            <span className="block mt-4 text-accent-burgundy font-semibold text-2xl md:text-3xl">Unlock your potential. Forge your path. Join a community that believes in you.</span>
           </motion.p>
 
           {/* Email Form */}
