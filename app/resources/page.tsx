@@ -1,24 +1,68 @@
-import { generateResources } from '@/lib/generateResources'
+'use client'
+
+import { useState, useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 import Image from 'next/image'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 
-export const dynamic = 'force-static'
-
-function getCategoryFromSearchParams(searchParams: { [key: string]: string | string[] | undefined }) {
-  const cat = searchParams.category
-  if (cat === 'videos' || cat === 'blogs') return cat
-  return 'blogs'
+interface Resource {
+  title: string
+  description: string
+  slug: string
+  category: string
+  type: string
+  image: string
+  date?: string
+  featured?: boolean
+  videoUrl?: string
+  duration?: number
 }
 
-export default function ResourcesPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
-  const resources = generateResources()
+export default function ResourcesPage() {
+  const [resources, setResources] = useState<Resource[]>([])
+  const [selectedCategory, setSelectedCategory] = useState('blogs')
+  
+  useEffect(() => {
+    // Load resources on client side
+    const loadResources = async () => {
+      try {
+        const response = await fetch('/api/resources')
+        const data = await response.json()
+        setResources(data)
+      } catch (error) {
+        console.error('Failed to load resources:', error)
+        // Fallback to static data if API fails
+        setResources([
+          {
+            title: 'Example Blog Post',
+            description: 'This is a sample blog post to demonstrate the file-based resource system.',
+            slug: 'example-blog',
+            category: 'blogs',
+            type: 'Blog',
+            image: 'https://via.placeholder.com/400x300?text=No+Image',
+            date: '2024-07-01',
+            featured: true
+          },
+          {
+            title: 'Example STEM Video',
+            description: 'A sample video entry for the resources page.',
+            slug: 'example-stem-video',
+            category: 'videos',
+            type: 'Video',
+            image: 'https://via.placeholder.com/400x300?text=No+Image',
+            videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            duration: 300,
+            date: '2024-07-01'
+          }
+        ])
+      }
+    }
+    loadResources()
+  }, [])
+
   const categories = [
     { key: 'blogs', label: 'Blogs' },
     { key: 'videos', label: 'Videos' },
   ]
-  const selectedCategory = getCategoryFromSearchParams(searchParams)
   const filteredResources = resources.filter(r => r.category === selectedCategory)
   const featuredResource = filteredResources.find(r => r.featured) || filteredResources[0] || null
 
@@ -32,13 +76,14 @@ export default function ResourcesPage({ searchParams }: { searchParams: { [key: 
         {/* Category Navigation */}
         <nav className="flex flex-wrap justify-center gap-6 mb-8 border-b border-gray-200 pb-2" aria-label="Resource categories">
           {categories.map(cat => (
-            <a
+            <button
               key={cat.key}
-              href={`?category=${cat.key}`}
+              onClick={() => setSelectedCategory(cat.key)}
               className={`text-lg font-semibold pb-1 transition-colors duration-200 ${selectedCategory === cat.key ? 'text-accent-burgundy border-b-2 border-accent-burgundy' : 'text-accent-navy'}`}
+              type="button"
             >
               {cat.label}
-            </a>
+            </button>
           ))}
         </nav>
         {/* Featured Section */}
@@ -59,7 +104,7 @@ export default function ResourcesPage({ searchParams }: { searchParams: { [key: 
                 <h2 className="text-2xl font-bold text-accent-navy mb-1">{featuredResource.title}</h2>
                 <p className="text-gray-700 mb-2">{featuredResource.description}</p>
                 <div className="text-xs text-gray-500 mb-2">
-                  {featuredResource.date || featuredResource.publishedAt ? new Date(featuredResource.date || featuredResource.publishedAt).toLocaleDateString() : 'Recently'}
+                  {featuredResource.date ? new Date(featuredResource.date).toLocaleDateString() : 'Recently'}
                   {featuredResource.duration && ` • ${Math.floor(featuredResource.duration / 60)}:${(featuredResource.duration % 60).toString().padStart(2, '0')}`}
                 </div>
                 <a href={featuredResource.category === 'videos' ? featuredResource.videoUrl : `/resources/${featuredResource.slug}`} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium" target={featuredResource.category === 'videos' ? '_blank' : undefined}>
@@ -88,7 +133,7 @@ export default function ResourcesPage({ searchParams }: { searchParams: { [key: 
               <h3 className="text-xl font-bold text-accent-navy mb-1">{r.title}</h3>
               <p className="text-gray-700 mb-2">{r.description}</p>
               <div className="text-xs text-gray-500 mb-4">
-                {r.date || r.publishedAt ? new Date(r.date || r.publishedAt).toLocaleDateString() : 'Recently'}
+                {r.date ? new Date(r.date).toLocaleDateString() : 'Recently'}
                 {r.duration && ` • ${Math.floor(r.duration / 60)}:${(r.duration % 60).toString().padStart(2, '0')}`}
               </div>
               <a href={r.category === 'videos' ? r.videoUrl : `/resources/${r.slug}`} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium" target={r.category === 'videos' ? '_blank' : undefined}>

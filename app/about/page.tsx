@@ -99,7 +99,7 @@ export default function AboutPage() {
           {/* Left: Portrait Image */}
           <div className="flex-shrink-0">
             <Image
-              src={typeof window !== 'undefined' && window.location.pathname.startsWith('/tutoring') ? '/tutoring/about-portrait.jpg' : '/about-portrait.jpg'}
+              src={typeof window !== 'undefined' && window.location.pathname.startsWith('/criticality-stem-consulting') ? '/criticality-stem-consulting/about-portrait.jpg' : '/about-portrait.jpg'}
               alt="Eric, Founder"
               width={224}
               height={224}
@@ -136,7 +136,7 @@ export default function AboutPage() {
         {/* Optionally, faded image watermark for desktop */}
         <div className="hidden md:block absolute right-0 top-0 w-64 h-64 opacity-10 pointer-events-none select-none" style={{zIndex:0}}>
           <Image
-            src={typeof window !== 'undefined' && window.location.pathname.startsWith('/tutoring') ? '/tutoring/about-portrait.jpg' : '/about-portrait.jpg'}
+            src={typeof window !== 'undefined' && window.location.pathname.startsWith('/criticality-stem-consulting') ? '/criticality-stem-consulting/about-portrait.jpg' : '/about-portrait.jpg'}
             alt="Eric, Founder watermark"
             fill
             style={{objectFit:'cover'}}
