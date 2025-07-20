@@ -133,26 +133,16 @@ export default function AboutPage() {
 
       {/* Section 3: The Founder's Story */}
       <section className="relative my-16 px-4">
-        {/* Optionally, faded image watermark for desktop */}
-        <div className="hidden md:block absolute right-0 top-0 w-64 h-64 opacity-10 pointer-events-none select-none" style={{zIndex:0}}>
-          <Image
-            src={typeof window !== 'undefined' && window.location.pathname.startsWith('/criticality-stem-consulting') ? '/criticality-stem-consulting/about-portrait.jpg' : '/about-portrait.jpg'}
-            alt="Eric, Founder watermark"
-            fill
-            style={{objectFit:'cover'}}
-            onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/256x256?text=No+Image' }}
-          />
-        </div>
-        <div className="relative z-10 max-w-3xl mx-auto">
-          <div className="font-extrabold text-3xl font-serif mb-2">The Founder’s Story</div>
+        <div className="max-w-3xl mx-auto">
+          <div className="font-extrabold text-3xl font-serif mb-2">The Founder's Story</div>
           <div className="w-24 h-1 bg-accent-burgundy mb-6 rounded"></div>
           <div className="text-lg leading-relaxed">
             <span className="font-bold text-xl">I almost failed out of college.</span><br /><br />
             By the end of my second semester at a state university, my GPA had dropped below 2.0. I was lost—directionless—and unsure if I belonged in the world of science at all.<br /><br />
-            But I kept moving. After countless cold emails, I landed my first research role doing work I didn’t even enjoy. Still, it was a start. I pivoted. Again and again.<br /><br />
+            But I kept moving. After countless cold emails, I landed my first research role doing work I didn't even enjoy. Still, it was a start. I pivoted. Again and again.<br /><br />
             Eventually, something stuck.<br /><br />
             Within a year, I was conducting research at Oak Ridge National Laboratory and the National Institute of Standards and Technology. Not long after, I was accepted into a Ph.D. program at the University of Florida.<br /><br />
-            That’s what Criticality is built on: the belief that with the right access, support, and strategy, any driven person can break into high-impact STEM fields—no matter where they start.
+            That's what Criticality is built on: the belief that with the right access, support, and strategy, any driven person can break into high-impact STEM fields—no matter where they start.
           </div>
         </div>
       </section>
