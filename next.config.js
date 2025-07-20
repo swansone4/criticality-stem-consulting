@@ -4,8 +4,8 @@ const nextConfig = {
     appDir: true,
   },
   // GitHub Pages configuration
-  basePath: process.env.NODE_ENV === 'production' ? '/tutoring' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/tutoring/' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/criticality-stem-consulting' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/criticality-stem-consulting/' : '',
   trailingSlash: true,
   output: 'export', // Enable static export
   distDir: 'out', // Output directory
