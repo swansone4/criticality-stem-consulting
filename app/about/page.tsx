@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import Navigation from '@/components/Navigation'
 import { Award, GraduationCap, Building2, Users, Target, BookOpen } from 'lucide-react'
@@ -86,12 +86,7 @@ export default function AboutPage() {
   })
 
   return (
-    <motion.div
-      className="min-h-screen bg-white font-academic"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
+    <div className="min-h-screen bg-white font-academic">
       <Navigation />
       {/* Section 1: The Why Quote Block */}
       <section className="container-max my-16 px-4">
@@ -146,6 +141,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </motion.div>
+    </div>
   )
 } 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
+import PageTransition from '@/components/PageTransition'
 
 export const metadata: Metadata = {
   title: 'Criticality - STEM Career Consulting',
@@ -82,7 +83,9 @@ export default function RootLayout({
             },
           }}
         />
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
       </body>
     </html>
   )

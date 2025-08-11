@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 import Image from 'next/image'
+import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface Resource {
   title: string
@@ -70,9 +72,9 @@ export default function ResourcesPage() {
     <div className="min-h-screen bg-white font-academic">
       <Navigation />
       <section className="container-max px-4 pt-24 pb-12">
-        <div className="mb-10 text-center">
+        <motion.div className="mb-10 text-center" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="text-4xl md:text-5xl font-bold text-accent-navy mb-2">Resources</h1>
-        </div>
+        </motion.div>
         {/* Category Navigation */}
         <nav className="flex flex-wrap justify-center gap-6 mb-8 border-b border-gray-200 pb-2" aria-label="Resource categories">
           {categories.map(cat => (
@@ -87,61 +89,80 @@ export default function ResourcesPage() {
           ))}
         </nav>
         {/* Featured Section */}
-        {featuredResource && (
-          <div className="mb-10">
-            <div className="bg-[#f8f6f1] border border-accent-burgundy rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center gap-6 relative">
-              <div className="relative w-full md:w-48 h-40 flex-shrink-0 mb-4 md:mb-0">
-                <Image
-                  src={featuredResource.image}
-                  alt={featuredResource.title}
-                  fill
-                  className="object-cover rounded-md grayscale hover:grayscale-0 transition duration-300"
-                  unoptimized
-                />
-                <span className="absolute top-2 left-2 bg-white text-xs text-accent-navy px-2 py-1 rounded font-semibold">Featured</span>
-              </div>
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold text-accent-navy mb-1">{featuredResource.title}</h2>
-                <p className="text-gray-700 mb-2">{featuredResource.description}</p>
-                <div className="text-xs text-gray-500 mb-2">
-                  {featuredResource.date ? new Date(featuredResource.date).toLocaleDateString() : 'Recently'}
-                  {featuredResource.duration && ` • ${Math.floor(featuredResource.duration / 60)}:${(featuredResource.duration % 60).toString().padStart(2, '0')}`}
+        <AnimatePresence mode="wait">
+          {featuredResource && (
+            <motion.div key={`${selectedCategory}-featured`} className="mb-10" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
+              <div className="bg-[#f8f6f1] border border-accent-burgundy rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center gap-6 relative">
+                <div className="relative w-full md:w-48 h-40 flex-shrink-0 mb-4 md:mb-0">
+                  <Image
+                    src={featuredResource.image}
+                    alt={featuredResource.title}
+                    fill
+                    className="object-cover rounded-md grayscale hover:grayscale-0 transition duration-300"
+                    unoptimized
+                  />
+                  <span className="absolute top-2 left-2 bg-white text-xs text-accent-navy px-2 py-1 rounded font-semibold">Featured</span>
                 </div>
-                <a href={featuredResource.category === 'videos' ? featuredResource.videoUrl : `/resources/${featuredResource.slug}`} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium" target={featuredResource.category === 'videos' ? '_blank' : undefined}>
-                  {featuredResource.type === 'Video' ? 'Watch' : 'Read More'}
-                </a>
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-accent-navy mb-1">{featuredResource.title}</h2>
+                  <p className="text-gray-700 mb-2">{featuredResource.description}</p>
+                  <div className="text-xs text-gray-500 mb-2">
+                    {featuredResource.date ? new Date(featuredResource.date).toLocaleDateString() : 'Recently'}
+                    {featuredResource.duration && ` • ${Math.floor(featuredResource.duration / 60)}:${(featuredResource.duration % 60).toString().padStart(2, '0')}`}
+                  </div>
+                  {featuredResource.category === 'videos' ? (
+                    <a href={featuredResource.videoUrl} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium" target="_blank" rel="noreferrer">
+                      Watch
+                    </a>
+                  ) : (
+                    <Link href={`/resources/${featuredResource.slug}`} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium">
+                      Read More
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
         {/* Resource Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredResources.map((r) => (
-            <div
-              key={r.slug}
-              className="bg-[#f8f6f1] rounded-lg shadow-md p-6 flex flex-col transition-all duration-300 hover:shadow-lg"
-            >
-              <div className="relative mb-4 h-40 w-full">
-                <Image
-                  src={r.image}
-                  alt={r.title}
-                  fill
-                  className="object-cover rounded-md grayscale hover:grayscale-0 transition duration-300"
-                  unoptimized
-                />
-              </div>
-              <h3 className="text-xl font-bold text-accent-navy mb-1">{r.title}</h3>
-              <p className="text-gray-700 mb-2">{r.description}</p>
-              <div className="text-xs text-gray-500 mb-4">
-                {r.date ? new Date(r.date).toLocaleDateString() : 'Recently'}
-                {r.duration && ` • ${Math.floor(r.duration / 60)}:${(r.duration % 60).toString().padStart(2, '0')}`}
-              </div>
-              <a href={r.category === 'videos' ? r.videoUrl : `/resources/${r.slug}`} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium" target={r.category === 'videos' ? '_blank' : undefined}>
-                {r.type === 'Video' ? 'Watch' : 'Read More'}
-              </a>
-            </div>
-          ))}
-        </div>
+        <AnimatePresence mode="sync">
+          <motion.div key={selectedCategory} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}>
+            {filteredResources.map((r, idx) => (
+              <motion.div
+                key={r.slug}
+                className="bg-[#f8f6f1] rounded-lg shadow-md p-6 flex flex-col transition-all duration-300 hover:shadow-lg"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: Math.min(idx * 0.04, 0.2) }}
+              >
+                <div className="relative mb-4 h-40 w-full">
+                  <Image
+                    src={r.image}
+                    alt={r.title}
+                    fill
+                    className="object-cover rounded-md grayscale hover:grayscale-0 transition duration-300"
+                    unoptimized
+                  />
+                </div>
+                <h3 className="text-xl font-bold text-accent-navy mb-1">{r.title}</h3>
+                <p className="text-gray-700 mb-2">{r.description}</p>
+                <div className="text-xs text-gray-500 mb-4">
+                  {r.date ? new Date(r.date).toLocaleDateString() : 'Recently'}
+                  {r.duration && ` • ${Math.floor(r.duration / 60)}:${(r.duration % 60).toString().padStart(2, '0')}`}
+                </div>
+                {r.category === 'videos' ? (
+                  <a href={r.videoUrl} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium" target="_blank" rel="noreferrer">
+                    Watch
+                  </a>
+                ) : (
+                  <Link href={`/resources/${r.slug}`} className="inline-block border border-accent-burgundy text-accent-burgundy px-4 py-2 rounded transition-colors duration-200 hover:bg-accent-burgundy hover:text-white font-medium">
+                    Read More
+                  </Link>
+                )}
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
         {/* Footer Newsletter Banner */}
         <footer className="mt-24 bg-[#f8f6f1] rounded-lg shadow-md p-8 text-center max-w-2xl mx-auto">
           <div className="text-xl font-bold text-accent-navy mb-2">Subscribe to our Newsletter for Weekly STEM Insights</div>
@@ -158,4 +179,4 @@ export default function ResourcesPage() {
       </section>
     </div>
   )
-} 
+}
